@@ -49,7 +49,15 @@ def main(argv):
                 previous = state.left_player
                 left_player = Paddle(previous.left_x, event.pos[1], previous.width, previous.height)
                 state = State(left_player, state.right_player, state.ball)
-
+            elif event.type == const.KEYDOWN:
+                directions = {
+                    const.K_UP: -20,
+                    const.K_DOWN: 20
+                }
+                if event.key in directions:
+                    previous = state.right_player
+                    right_player = Paddle(previous.left_x, previous.top_y + directions[event.key], previous.width, previous.height)
+                    state = State(state.left_player, right_player, state.ball)
         ball = state.ball
         next_tick = Ball(ball.center_x + ball.dx, ball.center_y + ball.dy, ball.radius, ball.dx, ball.dy)
         state = State(state.left_player, state.right_player, next_tick)
